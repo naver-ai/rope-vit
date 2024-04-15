@@ -19,7 +19,8 @@ Rotary Position Embedding (RoPE) performs remarkably on language models, especia
 
 ## Updates
 
-- **Mar 21, 2024**: Arxiv paper is released
+- **Apr 15, 2024**: Code released
+- **Mar 21, 2024**: Arxiv paper was released
 
 ## Getting Started
 
