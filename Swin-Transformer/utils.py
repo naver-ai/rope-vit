@@ -47,6 +47,11 @@ def load_pretrained(config, model, logger):
     checkpoint = torch.load(config.MODEL.PRETRAINED, map_location='cpu')
     state_dict = checkpoint['model']
 
+    # delete rope_t since we always re-init it
+    rope_t_keys = [k for k in state_dict.keys() if "rope_t_" in k]
+    for k in rope_t_keys:
+        del state_dict[k]
+
     # delete relative_position_index since we always re-init it
     relative_position_index_keys = [k for k in state_dict.keys() if "relative_position_index" in k]
     for k in relative_position_index_keys:

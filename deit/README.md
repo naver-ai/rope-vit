@@ -12,7 +12,7 @@ RoPE ViT is implemented in `models_v2_rope.py`.
   - `rope_mixed_ape_deit_*_patch16_LS` 
 
 
-RoPE ViT can be trained with DeiT-III training setting by following commands.
+### Training
 
 - ViT-S
 ```bash
@@ -39,3 +39,8 @@ OMP_NUM_THREADS=1 python -m torch.distributed.launch --nproc_per_node=8 --nnodes
   ```bash
   OMP_NUM_THREADS=1 python -m torch.distributed.launch --nproc_per_node=8 --nnodes=8 --use_env main.py --model rope_mixed_deit_large_patch16_LS --data-path ${data_path} --finetune ${save_path}/pretrain/checkpoint.pth --output_dir ${save_path}/finetune --batch-size 8 --epochs 20 --smoothing 0.1 --reprob 0.0 --opt adamw --lr 1e-5 --weight-decay 0.1 --input-size 224 --drop 0.0 --drop-path 0.45 --mixup 0.8 --cutmix 1.0 --unscale-lr --no-repeated-aug --aa rand-m9-mstd0.5-inc1 --eval-crop-ratio 1.0 --dist-eval
   ```
+
+### Evaluation
+```bash
+OMP_NUM_THREADS=1 python -m torch.distributed.launch --nproc_per_node=8 --nnodes=1 --use_env main.py --model ${model_name} --finetune ${checkpoint_file} --data-path ${data_path} --output_dir ${save_path} --batch-size 128 --input-size 224 --eval --eval-crop-ratio 1.0 --dist-eval
+```
