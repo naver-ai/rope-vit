@@ -46,7 +46,7 @@ You can find RoPE implementations at each folder.
 
 ## Pre-trained weights
 
-### Deit (400 epochs)
+### DeiT-III (400 epochs)
 
 | Model Name                                 | Top-1 (224x224) | Top-1 (384x384) | Weights                                                                |
 |--------------------------------------------|-------------|-------------|------------------------------------------------------------------------|
@@ -68,7 +68,7 @@ You can find RoPE implementations at each folder.
 | rope_axial_ape_deit_large_patch16_LS       | 84.7        | 85.1        | [Google drive](https://drive.google.com/file/d/1i90kxopHZ8KoDQFRsFrU5Zw2I9qB4qIn/view?usp=drive_link) |
 | rope_mixed_ape_deit_large_patch16_LS       | 84.9        | 85.5        | [Google drive](https://drive.google.com/file/d/1wQ6uzRl6ncWnTYaHOx4iZB-D-7NMcKQ9/view?usp=drive_link) |
 
-### Swin (300 epochs)
+### Swin Transformer (300 epochs)
 
 | Model Name                                 | Top-1 (224x224) | Top-1 (384x384) | Weights                                                                 |
 |--------------------------------------------|-------------|-------------|------------------------------------------------------------------------|
