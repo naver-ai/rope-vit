@@ -87,7 +87,7 @@ def apply_rotary_emb(xq: torch.Tensor, xk: torch.Tensor, freqs_cis: torch.Tensor
 
 
 class RoPEAttention(Attention):
-    """Multi-head Attention block with relative position embeddings."""
+    """Multi-head Attention block with rotary position embeddings."""
     def forward(self, x, freqs_cis):
         B, N, C = x.shape
         qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, C // self.num_heads).permute(2, 0, 3, 1, 4)

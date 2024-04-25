@@ -6,6 +6,7 @@ https://github.com/meta-llama/codellama/blob/main/llama/model.py
 import torch
 import torch.nn as nn
 import math
+from functools import partial
 
 def init_2d_freqs(dim: int, num_heads: int, theta: float = 10.0, rotate: bool = True):
     freqs_x = []
@@ -98,25 +99,28 @@ class Attention(nn.Module):
 
 
 class RoPEAttention(Attention):
-    """Multi-head Attention block with relative position embeddings."""
+    """Multi-head Attention block with rotary position embeddings."""
     def __init__(self, *args, rope_theta=10.0, rope_mixed=True, **kwargs):
         super().__init__(*args, **kwargs)
         
         self.rope_mixed = rope_mixed        
-        freqs = init_2d_freqs(
-            head_dim=self.dim // self.num_heads, num_heads=self.num_heads, theta=rope_theta, 
-            rotate=self.rope_mixed
-        )
-        t_x, t_y = init_t_xy(end_x=14, end_y=14)
-        self.register_buffer('rope_t_x', t_x)
-        self.register_buffer('rope_t_y', t_y)
         
         if self.rope_mixed:
+            self.compute_cis = partial(compute_mixed_cis, num_heads=self.num_heads)
+            
+            freqs = init_2d_freqs(
+                head_dim=self.dim // self.num_heads, num_heads=self.num_heads, theta=rope_theta, 
+                rotate=True
+            )
             self.rope_freqs = nn.Parameter(freqs, requires_grad=True)
+            
+            t_x, t_y = init_t_xy(end_x=14, end_y=14)
+            self.register_buffer('freqs_t_x', t_x)
+            self.register_buffer('freqs_t_y', t_y)
         else:
-            self.register_buffer('rope_freqs', freqs)
-            freqs_cis = compute_axial_cis(self.rope_freqs, self.rope_t_x, self.rope_t_y)
-            self.rope_freqs_cis = freqs_cis
+            self.compute_cis = partial(compute_axial_cis, dim=self.dim // self.num_heads, theta=rope_theta)
+            freqs_cis = self.compute_cis(end_x=14, end_y=14)
+            self.freqs_cis = freqs_cis
     
     def forward(self, x):
         B, N, C = x.shape
