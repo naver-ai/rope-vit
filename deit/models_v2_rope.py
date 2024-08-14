@@ -37,12 +37,11 @@ def compute_mixed_cis(freqs, t_x, t_y, num_heads):
     depth = freqs.shape[1]
     # No float 16 for this range
     with torch.cuda.amp.autocast(enabled=False):
-        freqs_cis = []
         freqs_x = (t_x.unsqueeze(-1) @ freqs[0].unsqueeze(-2)).view(depth, N, num_heads, -1).permute(0, 2, 1, 3)
         freqs_y = (t_y.unsqueeze(-1) @ freqs[1].unsqueeze(-2)).view(depth, N, num_heads, -1).permute(0, 2, 1, 3)
-        freqs_cis.append(torch.polar(torch.ones_like(freqs_x), freqs_x + freqs_y))
-                    
-    return torch.cat(freqs_cis, dim=-1)
+        freqs_cis = torch.polar(torch.ones_like(freqs_x), freqs_x + freqs_y)
+
+    return freqs_cis
 
 
 def compute_axial_cis(dim: int, end_x: int, end_y: int, theta: float = 100.0):

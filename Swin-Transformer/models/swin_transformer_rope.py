@@ -44,12 +44,11 @@ def compute_cis(freqs, t_x, t_y):
     N = t_x.shape[0]
     # No float 16 for this range
     with torch.cuda.amp.autocast(enabled=False):
-        freqs_cis = []
         freqs_x = (t_x.unsqueeze(-1) @ freqs[0].unsqueeze(-2))
         freqs_y = (t_y.unsqueeze(-1) @ freqs[1].unsqueeze(-2))
-        freqs_cis.append(torch.polar(torch.ones_like(freqs_x), freqs_x + freqs_y))
+        freqs_cis = torch.polar(torch.ones_like(freqs_x), freqs_x + freqs_y)
         
-    return torch.cat(freqs_cis, dim=-1)
+    return freqs_cis
 
 
 def reshape_for_broadcast(freqs_cis: torch.Tensor, x: torch.Tensor):
