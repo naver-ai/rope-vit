@@ -6,11 +6,13 @@
 
 [NAVER AI LAB](https://naver-career.gitbook.io/en/teams/clova-cic/ai-lab)
 
-[![Paper](https://img.shields.io/badge/Paper-arxiv.2403.13298-green)](https://arxiv.org/abs/2403.13298)
+[![Paper](https://img.shields.io/badge/Paper-arxiv-green)](https://arxiv.org/abs/2403.13298)
+[![Paper](https://img.shields.io/badge/Paper-ECCV_2024-blue)](https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/1584_ECCV_2024_paper.php)
+[![Paper](https://img.shields.io/badge/Weights-HuggingFace-red)](https://huggingface.co/collections/naver-ai/rope-vit-670e367fa2d547b705335153)
 
 </div>
 
-Official PyTorch implementation of RoPE-ViT "Rotary Position Embedding for Vision Transformer" | [arxiv](https://arxiv.org/abs/2403.13298).
+Official PyTorch implementation of RoPE-ViT "Rotary Position Embedding for Vision Transformer" | [arxiv](https://arxiv.org/abs/2403.13298), [ECCV](https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/1584_ECCV_2024_paper.php)
 
 ### Abstract
 
@@ -19,6 +21,7 @@ Rotary Position Embedding (RoPE) performs remarkably on language models, especia
 
 ## Updates
 
+- **Oct 16, 2024**: Pre-trained weights are uploaded to [huggingface hub](https://huggingface.co/collections/naver-ai/rope-vit-670e367fa2d547b705335153)
 - **Apr 16, 2024**: Pre-trained weights released
 - **Apr 15, 2024**: Code released
 - **Mar 21, 2024**: Arxiv paper was released
@@ -31,7 +34,6 @@ You can find RoPE implementations at each folder.
 - `swin/` : RoPE on Swin Transformer training code *"Swin Transformer: Hierarchical Vision Transformer using Shifted Windows"* [original repo](https://github.com/microsoft/Swin-Transformer)
 - `models/` : Only RoPE model files that used for DeiT and Swin.
 - `self-attn/` : Minimum implementation of RoPE in self-attention layer
-
 
 ## Performances
 
@@ -48,12 +50,12 @@ You can find RoPE implementations at each folder.
 
 - You can access the pre-trained weights on our [huggingface hub](https://huggingface.co/collections/naver-ai/rope-vit-670e367fa2d547b705335153)
 - `pretrained=True` for models in `models/` will automatically load pre-trained weights from huggingface hub
-```python
-from models import vit_rope
-model = vit_rope.rope_mixed_deit_small_patch16_LS(pretrained=True)
-from models import swin_transformer_rope
-model = swin_transformer_rope.swin_rope_mixed_tiny_patch4_window7_224(pretrained=True)
-```
+    ```python
+    from models import vit_rope
+    model = vit_rope.rope_mixed_deit_small_patch16_LS(pretrained=True)
+    from models import swin_transformer_rope
+    model = swin_transformer_rope.swin_rope_mixed_tiny_patch4_window7_224(pretrained=True)
+    ```
 
 ### DeiT-III (400 epochs)
 
