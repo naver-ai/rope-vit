@@ -15,6 +15,21 @@ except:
     from torch import inf
 
 
+def load_hf_checkpoint(model_name):
+    try:
+        from huggingface_hub import hf_hub_download
+
+        ckpt_path = hf_hub_download(
+            repo_id="naver-ai/" + model_name, filename= "pytorch_model.bin"
+        )
+        checkpoint = torch.load(ckpt_path)
+    except:
+        _HF_URL = "https://huggingface.co/naver-ai/" + model_name + "/resolve/main/pytorch_model.bin"
+        checkpoint = torch.hub.load_state_dict_from_url(_HF_URL)
+        
+    return checkpoint
+
+
 def load_checkpoint(config, model, optimizer, lr_scheduler, loss_scaler, logger):
     logger.info(f"==============> Resuming form {config.MODEL.RESUME}....................")
     if config.MODEL.RESUME.startswith('https'):
@@ -42,9 +57,10 @@ def load_checkpoint(config, model, optimizer, lr_scheduler, loss_scaler, logger)
     return max_accuracy
 
 
-def load_pretrained(config, model, logger):
-    logger.info(f"==============> Loading weight {config.MODEL.PRETRAINED} for fine-tuning......")
-    checkpoint = torch.load(config.MODEL.PRETRAINED, map_location='cpu')
+def load_pretrained(config, model, logger, checkpoint=None):
+    if checkpoint is None:
+        logger.info(f"==============> Loading weight {config.MODEL.PRETRAINED} for fine-tuning......")
+        checkpoint = torch.load(config.MODEL.PRETRAINED, map_location='cpu')
     state_dict = checkpoint['model']
 
     # delete rope_t since we always re-init it

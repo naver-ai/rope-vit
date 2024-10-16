@@ -258,11 +258,76 @@ class RoPESwinTransformer(SwinTransformer):
     def no_weight_decay_keywords(self):
         return {'rope_freqs', 'relative_position_bias_table'}
 
+def hf_checkpoint_load(model_name):
+    try:
+        from huggingface_hub import hf_hub_download
+
+        ckpt_path = hf_hub_download(
+            repo_id="naver-ai/" + model_name, filename= "pytorch_model.bin"
+        )
+        checkpoint = torch.load(ckpt_path)
+    except:
+        _HF_URL = "https://huggingface.co/naver-ai/" + model_name + "/resolve/main/pytorch_model.bin"
+        checkpoint = torch.hub.load_state_dict_from_url(_HF_URL)
+
+    return checkpoint
+
 def swin_rope_mixed_tiny_patch4_window7_224(pretrained=False):
     model = RoPESwinTransformer(
         img_size=224, patch_size=4, embed_dim=96, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24],
-        window_size=7, mlp_ratio=4, qkv_bias=True, qk_scale=None, drop_rate=0.0, attn_drop_rate=0.0,
-        drop_path_rate=0.1, norm_layer=partial(nn.LayerNorm, eps=1e-6), ape=False, patch_norm=True,
-        use_checkpoint=False, fused_window_process=False, rope_theta=10.0, rope_mixed=True, use_rpb=False
+        window_size=7, mlp_ratio=4, rope_theta=10.0, rope_mixed=True, use_rpb=False
     )
+    if pretrained:
+        checkpoint = hf_checkpoint_load("swin_rope_mixed_tiny_patch4_window7_224")
+        model.load_state_dict(checkpoint['model'], strict=True)
+    return model
+
+def swin_rope_mixed_small_patch4_window7_224(pretrained=False):
+    model = RoPESwinTransformer(
+        img_size=224, patch_size=4, embed_dim=96, depths=[2, 2, 18, 2], num_heads=[3, 6, 12, 24],
+        window_size=7, mlp_ratio=4, rope_theta=10.0, rope_mixed=True, use_rpb=False
+    )
+    if pretrained:
+        checkpoint = hf_checkpoint_load("swin_rope_mixed_small_patch4_window7_224")
+        model.load_state_dict(checkpoint['model'], strict=True)
+    return model
+
+def swin_rope_mixed_base_patch4_window7_224(pretrained=False):
+    model = RoPESwinTransformer(
+        img_size=224, patch_size=4, embed_dim=128, depths=[2, 2, 18, 2], num_heads=[4, 8, 16, 32],
+        window_size=7, mlp_ratio=4, rope_theta=10.0, rope_mixed=True, use_rpb=False
+    )
+    if pretrained:
+        checkpoint = hf_checkpoint_load("swin_rope_mixed_base_patch4_window7_224")
+        model.load_state_dict(checkpoint['model'], strict=True)
+    return model
+
+def swin_rope_axial_tiny_patch4_window7_224(pretrained=False):
+    model = RoPESwinTransformer(
+        img_size=224, patch_size=4, embed_dim=96, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24],
+        window_size=7, mlp_ratio=4, rope_theta=50.0, rope_mixed=False, use_rpb=False
+    )
+    if pretrained:
+        checkpoint = hf_checkpoint_load("swin_rope_axial_tiny_patch4_window7_224")
+        model.load_state_dict(checkpoint['model'], strict=True)
+    return model
+
+def swin_rope_axial_small_patch4_window7_224(pretrained=False):
+    model = RoPESwinTransformer(
+        img_size=224, patch_size=4, embed_dim=96, depths=[2, 2, 18, 2], num_heads=[3, 6, 12, 24],
+        window_size=7, mlp_ratio=4, rope_theta=50.0, rope_mixed=False, use_rpb=False
+    )
+    if pretrained:
+        checkpoint = hf_checkpoint_load("swin_rope_axial_small_patch4_window7_224")
+        model.load_state_dict(checkpoint['model'], strict=True)
+    return model
+
+def swin_rope_axial_base_patch4_window7_224(pretrained=False):
+    model = RoPESwinTransformer(
+        img_size=224, patch_size=4, embed_dim=128, depths=[2, 2, 18, 2], num_heads=[4, 8, 16, 32],
+        window_size=7, mlp_ratio=4, rope_theta=50.0, rope_mixed=False, use_rpb=False
+    )
+    if pretrained:
+        checkpoint = hf_checkpoint_load("swin_rope_axial_base_patch4_window7_224")
+        model.load_state_dict(checkpoint['model'], strict=True)
     return model

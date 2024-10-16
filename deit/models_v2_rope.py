@@ -17,12 +17,6 @@ from timm.models.registry import register_model
 
 from models_v2 import vit_models, Layer_scale_init_Block, Attention
 
-try:
-    import huggingface_hub
-except ImportError:
-    huggingface_hub = None
-    print("huggingface_hub is not installed.")
-
 def init_random_2d_freqs(dim: int, num_heads: int, theta: float = 10.0, rotate: bool = True):
     freqs_x = []
     freqs_y = []

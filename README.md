@@ -52,11 +52,12 @@ You can find RoPE implementations at each folder.
 from models import vit_rope
 model = vit_rope.rope_mixed_deit_small_patch16_LS(pretrained=True)
 from models import swin_transformer_rope
+model = swin_transformer_rope.swin_rope_mixed_tiny_patch4_window7_224(pretrained=True)
 ```
 
 ### DeiT-III (400 epochs)
 
-| Model Name                                 | Top-1 (224x224) | Top-1 (384x384) | Weights                                                                |
+| Model Name                                 | Top-1 (224) | Top-1 (384) | Weights                                                                |
 |--------------------------------------------|-------------|-------------|------------------------------------------------------------------------|
 | deit_small_patch16_LS                      | 80.4        | 79.4        | [HF hub](https://huggingface.co/naver-ai/deit_small_patch16_LS) / [Google drive](https://drive.google.com/file/d/1H6qGggmdfCpryTdUWoKsd_i9pCIia6sx/view?usp=drive_link) |
 | rope_axial_deit_small_patch16_LS           | 80.9        | 80.0        | [HF hub](https://huggingface.co/naver-ai/rope_axial_deit_small_patch16_LS) / [Google drive](https://drive.google.com/file/d/1aKN-MeCZqYT1xV7oM1qzdJ7c2VwifuOg/view?usp=drive_link) |
@@ -78,29 +79,29 @@ from models import swin_transformer_rope
 
 ### Swin Transformer (300 epochs)
 
-| Model Name                                 | Top-1 (224x224) | Top-1 (384x384) | Weights                                                                 |
+| Model Name                                 | Top-1 (224) | Top-1 (384) | Weights                                                                 |
 |--------------------------------------------|-------------|-------------|------------------------------------------------------------------------|
 | swin_tiny_patch4_window7_224               | 81.2        | 78.9        |                                                                        |
-| swin_rope_axial_tiny_patch4_window7_224    | 81.3        | 79.2        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1pfTRCrak5CxVbJcU19xMsksnQntEuZYz/view?usp=drive_link) |
-| swin_rope_mixed_tiny_patch4_window7_224    | 81.4        | 79.5        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1vvzr6nyluoVJ4t_0PclcUMlNWuZPXJdL/view?usp=drive_link) |
+| swin_rope_axial_tiny_patch4_window7_224    | 81.3        | 79.2        | [HF hub](https://huggingface.co/naver-ai/swin_rope_axial_tiny_patch4_window7_224) / [Google drive](https://drive.google.com/file/d/1pfTRCrak5CxVbJcU19xMsksnQntEuZYz/view?usp=drive_link) |
+| swin_rope_mixed_tiny_patch4_window7_224    | 81.4        | 79.5        | [HF hub](https://huggingface.co/naver-ai/swin_rope_mixed_tiny_patch4_window7_224) / [Google drive](https://drive.google.com/file/d/1vvzr6nyluoVJ4t_0PclcUMlNWuZPXJdL/view?usp=drive_link) |
 |                                            |             |             |                                                                        |
 | swin_small_patch4_window7_224              | 82.9        | 81.0        |                                                                        |
-| swin_rope_axial_small_patch4_window7_224   | 83.1        | 80.9        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1sEQZ7QQZ-zzuQ0Gx4yh8n0jbI0CP7g44/view?usp=drive_link) |
-| swin_rope_mixed_small_patch4_window7_224   | 83.0        | 81.4        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1CrFOmnQXQYmK9fT4nLIcVT338wz3Nbnn/view?usp=drive_link) |
+| swin_rope_axial_small_patch4_window7_224   | 83.1        | 80.9        | [HF hub](https://huggingface.co/naver-ai/swin_rope_axial_small_patch4_window7_224) / [Google drive](https://drive.google.com/file/d/1sEQZ7QQZ-zzuQ0Gx4yh8n0jbI0CP7g44/view?usp=drive_link) |
+| swin_rope_mixed_small_patch4_window7_224   | 83.0        | 81.4        | [HF hub](https://huggingface.co/naver-ai/swin_rope_mixed_small_patch4_window7_224) / [Google drive](https://drive.google.com/file/d/1CrFOmnQXQYmK9fT4nLIcVT338wz3Nbnn/view?usp=drive_link) |
 |                                            |             |             |                                                                        |
 | swin_base_patch4_window7_224               | 83.3        | 81.2        |                                                                        |
-| swin_rope_axial_base_patch4_window7_224    | 83.6        | 81.8        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1BXOUQRrBlUUf3TpKQFWsVsWSR_j9JMNO/view?usp=drive_link) |
-| swin_rope_mixed_base_patch4_window7_224    | 83.7        | 82.1        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1sHxm_nh7t8Y1-GY7sHqiqfvVe_fFCkho/view?usp=drive_link) |
+| swin_rope_axial_base_patch4_window7_224    | 83.6        | 81.8        | [HF hub](https://huggingface.co/naver-ai/swin_rope_axial_base_patch4_window7_224) / [Google drive](https://drive.google.com/file/d/1BXOUQRrBlUUf3TpKQFWsVsWSR_j9JMNO/view?usp=drive_link) |
+| swin_rope_mixed_base_patch4_window7_224    | 83.7        | 82.1        | [HF hub](https://huggingface.co/naver-ai/swin_rope_mixed_base_patch4_window7_224) / [Google drive](https://drive.google.com/file/d/1sHxm_nh7t8Y1-GY7sHqiqfvVe_fFCkho/view?usp=drive_link) |
 
 
 ## How to cite
 
 ```
-@article{heo2024ropevit,
+@inproceedings{heo2024ropevit,
     title={Rotary Position Embedding for Vision Transformer},
     author={Heo, Byeongho and Park, Song and Han, Dongyoon and Yun, Sangdoo},
     year={2024},
-    journal={arXiv preprint arXiv:2403.13298},
+    booktitle={European Conference on Computer Vision (ECCV)},
 }
 ```
 

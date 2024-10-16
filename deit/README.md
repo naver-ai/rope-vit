@@ -41,6 +41,13 @@ OMP_NUM_THREADS=1 python -m torch.distributed.launch --nproc_per_node=8 --nnodes
   ```
 
 ### Evaluation
-```bash
-OMP_NUM_THREADS=1 python -m torch.distributed.launch --nproc_per_node=8 --nnodes=1 --use_env main.py --model ${model_name} --finetune ${checkpoint_file} --data-path ${data_path} --output_dir ${save_path} --batch-size 128 --input-size 224 --eval --eval-crop-ratio 1.0 --dist-eval
-```
+
+- With pre-trained model (huggingface hub)
+  ```bash
+  OMP_NUM_THREADS=1 python -m torch.distributed.launch --nproc_per_node=8 --nnodes=1 --use_env main.py --model ${model_name} --finetune huggingface --data-path ${data_path} --output_dir ${save_path} --batch-size 128 --input-size 224 --eval --eval-crop-ratio 1.0 --dist-eval
+  ```
+
+- With custom `${checkpoint_file}`
+  ```bash
+  OMP_NUM_THREADS=1 python -m torch.distributed.launch --nproc_per_node=8 --nnodes=1 --use_env main.py --model ${model_name} --finetune ${checkpoint_file} --data-path ${data_path} --output_dir ${save_path} --batch-size 128 --input-size 224 --eval --eval-crop-ratio 1.0 --dist-eval
+  ```

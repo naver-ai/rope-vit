@@ -290,7 +290,7 @@ def main(args):
 
                     
     if args.finetune:
-        if args.finetune.startswith('huggingface'):
+        if args.finetune == 'huggingface':
             checkpoint = hf_checkpoint_load(args.model)
         else:
             checkpoint = torch.load(args.finetune, map_location='cpu')

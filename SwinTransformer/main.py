@@ -27,7 +27,7 @@ from lr_scheduler import build_scheduler
 from optimizer import build_optimizer
 from logger import create_logger
 from utils import load_checkpoint, load_pretrained, save_checkpoint, NativeScalerWithGradNormCount, auto_resume_helper, \
-    reduce_tensor
+    reduce_tensor, load_hf_checkpoint
 
 # pytorch major version (1.x or 2.x)
 PYTORCH_MAJOR_VERSION = int(torch.__version__.split('.')[0])
@@ -140,7 +140,11 @@ def main(config):
             config.defrost()
             config.MODEL.PRETRAINED = config.MODEL.RESUME
             config.freeze()
-            load_pretrained(config, model_without_ddp, logger)
+            if config.MODEL.RESUME == 'huggingface':
+                checkpoint = load_hf_checkpoint(config.MODEL.NAME)
+                load_pretrained(config, model_without_ddp, logger, checkpoint=checkpoint)
+            else:
+                load_pretrained(config, model_without_ddp, logger)
         else:
             max_accuracy = load_checkpoint(config, model_without_ddp, optimizer, lr_scheduler, loss_scaler, logger)
         acc1, acc5, loss = validate(config, data_loader_val, model)
