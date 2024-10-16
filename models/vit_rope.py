@@ -19,7 +19,7 @@ from timm.models.vision_transformer import Mlp, PatchEmbed , _cfg
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from timm.models.registry import register_model
 
-from models_v2 import vit_models, Layer_scale_init_Block, Attention
+from deit.models_v2 import vit_models, Layer_scale_init_Block, Attention
 
 def init_random_2d_freqs(dim: int, num_heads: int, theta: float = 10.0, rotate: bool = True):
     freqs_x = []
@@ -209,108 +209,181 @@ class rope_vit_models(vit_models):
         
         return x
 
+def hf_checkpoint_load(model_name):
+    try:
+        from huggingface_hub import hf_hub_download
 
+        ckpt_path = hf_hub_download(
+            repo_id="naver-ai/" + model_name, filename= "pytorch_model.bin"
+        )
+        checkpoint = torch.load(ckpt_path)
+    except:
+        _HF_URL = "https://huggingface.co/naver-ai/" + model_name + "/resolve/main/pytorch_model.bin"
+        checkpoint = torch.hub.load_state_dict_from_url(_HF_URL)
+
+    return checkpoint
 
 # RoPE-Axial
 @register_model
-def rope_axial_deit_small_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_axial_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6), block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=100.0, rope_mixed=False, **kwargs)
     model.default_cfg = _cfg()
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_axial_deit_small_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 @register_model
-def rope_axial_deit_base_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_axial_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=100.0, rope_mixed=False, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_axial_deit_base_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 @register_model
-def rope_axial_deit_large_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_axial_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=1024, depth=24, num_heads=16, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=100.0, rope_mixed=False, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_axial_deit_large_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 # RoPE-Mixed
 @register_model
-def rope_mixed_deit_small_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_mixed_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6), block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=10.0, rope_mixed=True, **kwargs)
     model.default_cfg = _cfg()
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_mixed_deit_small_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+    
     return model
 
 @register_model
-def rope_mixed_deit_base_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_mixed_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=10.0, rope_mixed=True, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_mixed_deit_base_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 @register_model
-def rope_mixed_deit_large_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_mixed_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=1024, depth=24, num_heads=16, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=10.0, rope_mixed=True, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_mixed_deit_large_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
+
 
 # RoPE-Axial + APE
 @register_model
-def rope_axial_ape_deit_small_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_axial_ape_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6), block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=100.0, rope_mixed=False, use_ape=True, **kwargs)
     model.default_cfg = _cfg()
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_axial_ape_deit_small_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 @register_model
-def rope_axial_ape_deit_base_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_axial_ape_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=100.0, rope_mixed=False, use_ape=True, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_axial_ape_deit_base_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 @register_model
-def rope_axial_ape_deit_large_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_axial_ape_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=1024, depth=24, num_heads=16, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=100.0, rope_mixed=False, use_ape=True, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_axial_ape_deit_large_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 # RoPE-Mixed + APE
 @register_model
-def rope_mixed_ape_deit_small_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_mixed_ape_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6), block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=10.0, rope_mixed=True, use_ape=True, **kwargs)
     model.default_cfg = _cfg()
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_mixed_ape_deit_small_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 @register_model
-def rope_mixed_ape_deit_base_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_mixed_ape_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=10.0, rope_mixed=True, use_ape=True, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_mixed_ape_deit_base_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model
 
 @register_model
-def rope_mixed_ape_deit_large_patch16_LS(pretrained=False, img_size=224, pretrained_21k = False,  **kwargs):
+def rope_mixed_ape_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model = rope_vit_models(
         img_size = img_size, patch_size=16, embed_dim=1024, depth=24, num_heads=16, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6),block_layers=RoPE_Layer_scale_init_Block, Attention_block=RoPEAttention,
         rope_theta=10.0, rope_mixed=True, use_ape=True, **kwargs)
+    
+    if pretrained:
+        checkpoint = hf_checkpoint_load("rope_mixed_ape_deit_large_patch16_LS")
+        model.load_state_dict(checkpoint['model'], strict=True)
+        
     return model

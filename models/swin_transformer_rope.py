@@ -10,10 +10,11 @@ import torch.utils.checkpoint as checkpoint
 import torch.nn.functional as F
 from typing import Any, Optional, Tuple
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
+from functools import partial
 
-from .swin_transformer import SwinTransformer, Mlp, SwinTransformerBlock, WindowAttention, BasicLayer
-from .swin_transformer import window_partition, window_reverse, PatchMerging
-from .swin_transformer import WindowProcess, WindowProcessReverse
+from SwinTransformer.models.swin_transformer import SwinTransformer, Mlp, SwinTransformerBlock, WindowAttention, BasicLayer
+from SwinTransformer.models.swin_transformer import window_partition, window_reverse, PatchMerging
+from SwinTransformer.models.swin_transformer import WindowProcess, WindowProcessReverse
 
 ## RoPE functions
 
@@ -256,3 +257,12 @@ class RoPESwinTransformer(SwinTransformer):
     @torch.jit.ignore
     def no_weight_decay_keywords(self):
         return {'rope_freqs', 'relative_position_bias_table'}
+
+def swin_rope_mixed_tiny_patch4_window7_224(pretrained=False):
+    model = RoPESwinTransformer(
+        img_size=224, patch_size=4, embed_dim=96, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24],
+        window_size=7, mlp_ratio=4, qkv_bias=True, qk_scale=None, drop_rate=0.0, attn_drop_rate=0.0,
+        drop_path_rate=0.1, norm_layer=partial(nn.LayerNorm, eps=1e-6), ape=False, patch_norm=True,
+        use_checkpoint=False, fused_window_process=False, rope_theta=10.0, rope_mixed=True, use_rpb=False
+    )
+    return model

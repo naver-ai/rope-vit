@@ -46,43 +46,51 @@ You can find RoPE implementations at each folder.
 
 ## Pre-trained weights
 
+- You can access the pre-trained weights on our [huggingface hub](https://huggingface.co/collections/naver-ai/rope-vit-670e367fa2d547b705335153)
+- `pretrained=True` for models in `models/` will automatically load pre-trained weights from huggingface hub
+```python
+from models import vit_rope
+model = vit_rope.rope_mixed_deit_small_patch16_LS(pretrained=True)
+from models import swin_transformer_rope
+```
+
 ### DeiT-III (400 epochs)
 
 | Model Name                                 | Top-1 (224x224) | Top-1 (384x384) | Weights                                                                |
 |--------------------------------------------|-------------|-------------|------------------------------------------------------------------------|
-| deit_small_patch16_LS                      | 80.4        | 79.4        | [Google drive](https://drive.google.com/file/d/1H6qGggmdfCpryTdUWoKsd_i9pCIia6sx/view?usp=drive_link) |
-| rope_axial_deit_small_patch16_LS           | 80.9        | 80.0        | [Google drive](https://drive.google.com/file/d/1aKN-MeCZqYT1xV7oM1qzdJ7c2VwifuOg/view?usp=drive_link) |
-| rope_mixed_deit_small_patch16_LS           | 80.9        | 81.8        | [Google drive](https://drive.google.com/file/d/1_P_1s4zIgx9p6WIXhebcsB3haz5ChIVF/view?usp=drive_link) |
-| rope_axial_ape_deit_small_patch16_LS       | 80.7        | 81.2        | [Google drive](https://drive.google.com/file/d/1tFZodFaQegDXGiInHo9D4UrWh7c_KSao/view?usp=drive_link) |
-| rope_mixed_ape_deit_small_patch16_LS       | 80.9        | 81.7        | [Google drive](https://drive.google.com/file/d/1ss2ZaqQMkzq2WjmuuOlah5sV5eH8cCly/view?usp=drive_link) |
+| deit_small_patch16_LS                      | 80.4        | 79.4        | [HF hub](https://huggingface.co/naver-ai/deit_small_patch16_LS) / [Google drive](https://drive.google.com/file/d/1H6qGggmdfCpryTdUWoKsd_i9pCIia6sx/view?usp=drive_link) |
+| rope_axial_deit_small_patch16_LS           | 80.9        | 80.0        | [HF hub](https://huggingface.co/naver-ai/rope_axial_deit_small_patch16_LS) / [Google drive](https://drive.google.com/file/d/1aKN-MeCZqYT1xV7oM1qzdJ7c2VwifuOg/view?usp=drive_link) |
+| rope_mixed_deit_small_patch16_LS           | 80.9        | 81.8        | [HF hub](https://huggingface.co/naver-ai/rope_mixed_deit_small_patch16_LS) / [Google drive](https://drive.google.com/file/d/1_P_1s4zIgx9p6WIXhebcsB3haz5ChIVF/view?usp=drive_link) |
+| rope_axial_ape_deit_small_patch16_LS       | 80.7        | 81.2        | [HF hub](https://huggingface.co/naver-ai/rope_axial_ape_deit_small_patch16_LS) / [Google drive](https://drive.google.com/file/d/1tFZodFaQegDXGiInHo9D4UrWh7c_KSao/view?usp=drive_link) |
+| rope_mixed_ape_deit_small_patch16_LS       | 80.9        | 81.7        | [HF hub](https://huggingface.co/naver-ai/rope_mixed_ape_deit_small_patch16_LS) / [Google drive](https://drive.google.com/file/d/1ss2ZaqQMkzq2WjmuuOlah5sV5eH8cCly/view?usp=drive_link) |
 |                                            |             |             |                                                                        |
-| deit_base_patch16_LS                       | 83.4        | 82.8        | [Google drive](https://drive.google.com/file/d/15cq8QM-PE2b7s_UpVzeaGX2W6Nc7Apsb/view?usp=drive_link) |
-| rope_axial_deit_base_patch16_LS            | 83.6        | 83.9        | [Google drive](https://drive.google.com/file/d/1HJdWKvABOuHyB3EOLUAQpX-nZ8sj0FhW/view?usp=drive_link) |
-| rope_mixed_deit_base_patch16_LS            | 83.8        | 84.4        | [Google drive](https://drive.google.com/file/d/1zXOd2oFErFRYwY4drzP-whqXOt_fBS57/view?usp=drive_link) |
-| rope_axial_ape_deit_base_patch16_LS        | 83.7        | 83.8        | [Google drive](https://drive.google.com/file/d/1IkY_mmqcVmVZgY4wOFD__SHvCwFi4wz1/view?usp=drive_link) |
-| rope_mixed_ape_deit_base_patch16_LS        | 83.8        | 84.3        | [Google drive](https://drive.google.com/file/d/1gJNjDmSL1ouQvUNoXujbCB1OYCv85mdv/view?usp=drive_link) |
+| deit_base_patch16_LS                       | 83.4        | 82.8        | [HF hub](https://huggingface.co/naver-ai/deit_base_patch16_LS) / [Google drive](https://drive.google.com/file/d/15cq8QM-PE2b7s_UpVzeaGX2W6Nc7Apsb/view?usp=drive_link) |
+| rope_axial_deit_base_patch16_LS            | 83.6        | 83.9        | [HF hub](https://huggingface.co/naver-ai/rope_axial_deit_base_patch16_LS) / [Google drive](https://drive.google.com/file/d/1HJdWKvABOuHyB3EOLUAQpX-nZ8sj0FhW/view?usp=drive_link) |
+| rope_mixed_deit_base_patch16_LS            | 83.8        | 84.4        | [HF hub](https://huggingface.co/naver-ai/rope_mixed_deit_base_patch16_LS) / [Google drive](https://drive.google.com/file/d/1zXOd2oFErFRYwY4drzP-whqXOt_fBS57/view?usp=drive_link) |
+| rope_axial_ape_deit_base_patch16_LS        | 83.7        | 83.8        | [HF hub](https://huggingface.co/naver-ai/rope_axial_ape_deit_base_patch16_LS) / [Google drive](https://drive.google.com/file/d/1IkY_mmqcVmVZgY4wOFD__SHvCwFi4wz1/view?usp=drive_link) |
+| rope_mixed_ape_deit_base_patch16_LS        | 83.8        | 84.3        | [HF hub](https://huggingface.co/naver-ai/rope_mixed_ape_deit_base_patch16_LS) / [Google drive](https://drive.google.com/file/d/1gJNjDmSL1ouQvUNoXujbCB1OYCv85mdv/view?usp=drive_link) |
 |                                            |             |             |                                                                        |
-| deit_large_patch16_LS                      | 84.6        | 84.2        | [Google drive](https://drive.google.com/file/d/1x_3MJbsmyaQGTOA2rnLxjf-a7_56tK4Q/view?usp=drive_link) |
-| rope_axial_deit_large_patch16_LS           | 84.7        | 85.1        | [Google drive](https://drive.google.com/file/d/1RVh1BpWadeU0jk_8Ej6Ihv9mBIdbnFgQ/view?usp=drive_link) |
-| rope_mixed_deit_large_patch16_LS           | 84.8        | 85.6        | [Google drive](https://drive.google.com/file/d/1dAtfu_zHM_kD7f4FXfa599RkL_tvzbSz/view?usp=drive_link) |
-| rope_axial_ape_deit_large_patch16_LS       | 84.7        | 85.1        | [Google drive](https://drive.google.com/file/d/1i90kxopHZ8KoDQFRsFrU5Zw2I9qB4qIn/view?usp=drive_link) |
-| rope_mixed_ape_deit_large_patch16_LS       | 84.9        | 85.5        | [Google drive](https://drive.google.com/file/d/1wQ6uzRl6ncWnTYaHOx4iZB-D-7NMcKQ9/view?usp=drive_link) |
+| deit_large_patch16_LS                      | 84.6        | 84.2        | [HF hub](https://huggingface.co/naver-ai/deit_large_patch16_LS) / [Google drive](https://drive.google.com/file/d/1x_3MJbsmyaQGTOA2rnLxjf-a7_56tK4Q/view?usp=drive_link) |
+| rope_axial_deit_large_patch16_LS           | 84.7        | 85.1        | [HF hub](https://huggingface.co/naver-ai/rope_axial_deit_large_patch16_LS) / [Google drive](https://drive.google.com/file/d/1RVh1BpWadeU0jk_8Ej6Ihv9mBIdbnFgQ/view?usp=drive_link) |
+| rope_mixed_deit_large_patch16_LS           | 84.8        | 85.6        | [HF hub](https://huggingface.co/naver-ai/rope_mixed_deit_large_patch16_LS) / [Google drive](https://drive.google.com/file/d/1dAtfu_zHM_kD7f4FXfa599RkL_tvzbSz/view?usp=drive_link) |
+| rope_axial_ape_deit_large_patch16_LS       | 84.7        | 85.1        | [HF hub](https://huggingface.co/naver-ai/rope_axial_ape_deit_large_patch16_LS) / [Google drive](https://drive.google.com/file/d/1i90kxopHZ8KoDQFRsFrU5Zw2I9qB4qIn/view?usp=drive_link) |
+| rope_mixed_ape_deit_large_patch16_LS       | 84.9        | 85.5        | [HF hub](https://huggingface.co/naver-ai/rope_mixed_ape_deit_large_patch16_LS) / [Google drive](https://drive.google.com/file/d/1wQ6uzRl6ncWnTYaHOx4iZB-D-7NMcKQ9/view?usp=drive_link) |
 
 ### Swin Transformer (300 epochs)
 
 | Model Name                                 | Top-1 (224x224) | Top-1 (384x384) | Weights                                                                 |
 |--------------------------------------------|-------------|-------------|------------------------------------------------------------------------|
 | swin_tiny_patch4_window7_224               | 81.2        | 78.9        |                                                                        |
-| swin_rope_axial_tiny_patch4_window7_224    | 81.3        | 79.2        | [Google drive](https://drive.google.com/file/d/1pfTRCrak5CxVbJcU19xMsksnQntEuZYz/view?usp=drive_link) |
-| swin_rope_mixed_tiny_patch4_window7_224    | 81.4        | 79.5        | [Google drive](https://drive.google.com/file/d/1vvzr6nyluoVJ4t_0PclcUMlNWuZPXJdL/view?usp=drive_link) |
+| swin_rope_axial_tiny_patch4_window7_224    | 81.3        | 79.2        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1pfTRCrak5CxVbJcU19xMsksnQntEuZYz/view?usp=drive_link) |
+| swin_rope_mixed_tiny_patch4_window7_224    | 81.4        | 79.5        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1vvzr6nyluoVJ4t_0PclcUMlNWuZPXJdL/view?usp=drive_link) |
 |                                            |             |             |                                                                        |
 | swin_small_patch4_window7_224              | 82.9        | 81.0        |                                                                        |
-| swin_rope_axial_small_patch4_window7_224   | 83.1        | 80.9        | [Google drive](https://drive.google.com/file/d/1sEQZ7QQZ-zzuQ0Gx4yh8n0jbI0CP7g44/view?usp=drive_link) |
-| swin_rope_mixed_small_patch4_window7_224   | 83.0        | 81.4        | [Google drive](https://drive.google.com/file/d/1CrFOmnQXQYmK9fT4nLIcVT338wz3Nbnn/view?usp=drive_link) |
+| swin_rope_axial_small_patch4_window7_224   | 83.1        | 80.9        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1sEQZ7QQZ-zzuQ0Gx4yh8n0jbI0CP7g44/view?usp=drive_link) |
+| swin_rope_mixed_small_patch4_window7_224   | 83.0        | 81.4        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1CrFOmnQXQYmK9fT4nLIcVT338wz3Nbnn/view?usp=drive_link) |
 |                                            |             |             |                                                                        |
 | swin_base_patch4_window7_224               | 83.3        | 81.2        |                                                                        |
-| swin_rope_axial_base_patch4_window7_224    | 83.6        | 81.8        | [Google drive](https://drive.google.com/file/d/1BXOUQRrBlUUf3TpKQFWsVsWSR_j9JMNO/view?usp=drive_link) |
-| swin_rope_mixed_base_patch4_window7_224    | 83.7        | 82.1        | [Google drive](https://drive.google.com/file/d/1sHxm_nh7t8Y1-GY7sHqiqfvVe_fFCkho/view?usp=drive_link) |
+| swin_rope_axial_base_patch4_window7_224    | 83.6        | 81.8        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1BXOUQRrBlUUf3TpKQFWsVsWSR_j9JMNO/view?usp=drive_link) |
+| swin_rope_mixed_base_patch4_window7_224    | 83.7        | 82.1        | [HF hub]() / [Google drive](https://drive.google.com/file/d/1sHxm_nh7t8Y1-GY7sHqiqfvVe_fFCkho/view?usp=drive_link) |
 
 
 ## How to cite
