@@ -221,6 +221,12 @@ def hf_checkpoint_load(model_name):
         _HF_URL = "https://huggingface.co/naver-ai/" + model_name + "/resolve/main/pytorch_model.bin"
         checkpoint = torch.hub.load_state_dict_from_url(_HF_URL)
 
+    state_dict = checkpoint['model']
+    for k in ['freqs_t_x', 'freqs_t_y']:
+        if k in state_dict:
+            print(f"Removing key {k} from pretrained checkpoint")
+            del state_dict[k]
+            
     return checkpoint
 
 # RoPE-Axial
@@ -233,8 +239,8 @@ def rope_axial_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model.default_cfg = _cfg()
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_axial_deit_small_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_axial_deit_small_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -246,8 +252,8 @@ def rope_axial_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwargs):
         rope_theta=100.0, rope_mixed=False, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_axial_deit_base_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_axial_deit_base_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -259,8 +265,8 @@ def rope_axial_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwargs):
         rope_theta=100.0, rope_mixed=False, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_axial_deit_large_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_axial_deit_large_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -274,8 +280,8 @@ def rope_mixed_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwargs):
     model.default_cfg = _cfg()
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_mixed_deit_small_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_mixed_deit_small_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
     
     return model
 
@@ -287,8 +293,8 @@ def rope_mixed_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwargs):
         rope_theta=10.0, rope_mixed=True, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_mixed_deit_base_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_mixed_deit_base_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -300,8 +306,8 @@ def rope_mixed_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwargs):
         rope_theta=10.0, rope_mixed=True, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_mixed_deit_large_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_mixed_deit_large_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -316,8 +322,8 @@ def rope_axial_ape_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwar
     model.default_cfg = _cfg()
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_axial_ape_deit_small_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_axial_ape_deit_small_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -329,8 +335,8 @@ def rope_axial_ape_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwarg
         rope_theta=100.0, rope_mixed=False, use_ape=True, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_axial_ape_deit_base_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_axial_ape_deit_base_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -342,8 +348,8 @@ def rope_axial_ape_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwar
         rope_theta=100.0, rope_mixed=False, use_ape=True, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_axial_ape_deit_large_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_axial_ape_deit_large_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -357,8 +363,8 @@ def rope_mixed_ape_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwar
     model.default_cfg = _cfg()
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_mixed_ape_deit_small_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_mixed_ape_deit_small_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -370,8 +376,8 @@ def rope_mixed_ape_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwarg
         rope_theta=10.0, rope_mixed=True, use_ape=True, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_mixed_ape_deit_base_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_mixed_ape_deit_base_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model
 
@@ -383,7 +389,7 @@ def rope_mixed_ape_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwar
         rope_theta=10.0, rope_mixed=True, use_ape=True, **kwargs)
     
     if pretrained:
-        checkpoint = hf_checkpoint_load("rope_mixed_ape_deit_large_patch16_LS")
-        model.load_state_dict(checkpoint['model'], strict=True)
+        state_dict = hf_checkpoint_load("rope_mixed_ape_deit_large_patch16_LS")
+        model.load_state_dict(state_dict, strict=False)
         
     return model

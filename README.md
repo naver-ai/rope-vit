@@ -56,6 +56,13 @@ You can find RoPE implementations at each folder.
     from models import swin_transformer_rope
     model = swin_transformer_rope.swin_rope_mixed_tiny_patch4_window7_224(pretrained=True)
     ```
+- For inference with `256x256` images
+    ```python
+    from models import vit_rope
+    model = vit_rope.rope_mixed_deit_small_patch16_LS(pretrained=True, img_size=256)
+    from models import swin_transformer_rope
+    model = swin_transformer_rope.swin_rope_mixed_tiny_patch4_window7_224(pretrained=True, img_size=256)
+    ```
 
 ### DeiT-III (400 epochs)
 
