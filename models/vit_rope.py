@@ -216,10 +216,10 @@ def hf_checkpoint_load(model_name):
         ckpt_path = hf_hub_download(
             repo_id="naver-ai/" + model_name, filename= "pytorch_model.bin"
         )
-        checkpoint = torch.load(ckpt_path)
+        checkpoint = torch.load(ckpt_path, map_location='cpu')
     except:
         _HF_URL = "https://huggingface.co/naver-ai/" + model_name + "/resolve/main/pytorch_model.bin"
-        checkpoint = torch.hub.load_state_dict_from_url(_HF_URL)
+        checkpoint = torch.hub.load_state_dict_from_url(_HF_URL, map_location='cpu')
 
     state_dict = checkpoint['model']
     for k in ['freqs_t_x', 'freqs_t_y']:
@@ -228,6 +228,31 @@ def hf_checkpoint_load(model_name):
             del state_dict[k]
             
     return checkpoint
+
+def adjust_pos_embed_size(model, state_dict):
+    
+    # interpolate position embedding
+    if 'pos_embed' in state_dict:
+        pos_embed_checkpoint = state_dict['pos_embed']
+        embedding_size = pos_embed_checkpoint.shape[-1]
+        num_patches = model.patch_embed.num_patches
+        num_extra_tokens = model.pos_embed.shape[-2] - num_patches
+        # height (== width) for the checkpoint position embedding
+        orig_size = int((pos_embed_checkpoint.shape[-2] - num_extra_tokens) ** 0.5)
+        # height (== width) for the new position embedding
+        new_size = int(num_patches ** 0.5)
+        # class_token and dist_token are kept unchanged
+        extra_tokens = pos_embed_checkpoint[:, :num_extra_tokens]
+        # only the position tokens are interpolated
+        pos_tokens = pos_embed_checkpoint[:, num_extra_tokens:]
+        pos_tokens = pos_tokens.reshape(-1, orig_size, orig_size, embedding_size).permute(0, 3, 1, 2)
+        pos_tokens = torch.nn.functional.interpolate(
+            pos_tokens, size=(new_size, new_size), mode='bicubic', align_corners=False)
+        pos_tokens = pos_tokens.permute(0, 2, 3, 1).flatten(1, 2)
+        new_pos_embed = torch.cat((extra_tokens, pos_tokens), dim=1)
+        state_dict['pos_embed'] = new_pos_embed
+        
+    return state_dict
 
 # RoPE-Axial
 @register_model
@@ -323,6 +348,7 @@ def rope_axial_ape_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwar
     
     if pretrained:
         state_dict = hf_checkpoint_load("rope_axial_ape_deit_small_patch16_LS")
+        state_dict = adjust_pos_embed_size(model, state_dict)
         model.load_state_dict(state_dict, strict=False)
         
     return model
@@ -336,6 +362,7 @@ def rope_axial_ape_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwarg
     
     if pretrained:
         state_dict = hf_checkpoint_load("rope_axial_ape_deit_base_patch16_LS")
+        state_dict = adjust_pos_embed_size(model, state_dict)
         model.load_state_dict(state_dict, strict=False)
         
     return model
@@ -349,6 +376,7 @@ def rope_axial_ape_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwar
     
     if pretrained:
         state_dict = hf_checkpoint_load("rope_axial_ape_deit_large_patch16_LS")
+        state_dict = adjust_pos_embed_size(model, state_dict)
         model.load_state_dict(state_dict, strict=False)
         
     return model
@@ -364,6 +392,7 @@ def rope_mixed_ape_deit_small_patch16_LS(pretrained=False, img_size=224,  **kwar
     
     if pretrained:
         state_dict = hf_checkpoint_load("rope_mixed_ape_deit_small_patch16_LS")
+        state_dict = adjust_pos_embed_size(model, state_dict)
         model.load_state_dict(state_dict, strict=False)
         
     return model
@@ -377,6 +406,7 @@ def rope_mixed_ape_deit_base_patch16_LS(pretrained=False, img_size=224,  **kwarg
     
     if pretrained:
         state_dict = hf_checkpoint_load("rope_mixed_ape_deit_base_patch16_LS")
+        state_dict = adjust_pos_embed_size(model, state_dict)
         model.load_state_dict(state_dict, strict=False)
         
     return model
@@ -390,6 +420,7 @@ def rope_mixed_ape_deit_large_patch16_LS(pretrained=False, img_size=224,  **kwar
     
     if pretrained:
         state_dict = hf_checkpoint_load("rope_mixed_ape_deit_large_patch16_LS")
+        state_dict = adjust_pos_embed_size(model, state_dict)
         model.load_state_dict(state_dict, strict=False)
         
     return model

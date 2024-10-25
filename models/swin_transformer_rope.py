@@ -265,10 +265,10 @@ def hf_checkpoint_load(model_name):
         ckpt_path = hf_hub_download(
             repo_id="naver-ai/" + model_name, filename= "pytorch_model.bin"
         )
-        checkpoint = torch.load(ckpt_path)
+        checkpoint = torch.load(ckpt_path, map_location='cpu')
     except:
         _HF_URL = "https://huggingface.co/naver-ai/" + model_name + "/resolve/main/pytorch_model.bin"
-        checkpoint = torch.hub.load_state_dict_from_url(_HF_URL)
+        checkpoint = torch.hub.load_state_dict_from_url(_HF_URL, map_location='cpu')
 
     state_dict = checkpoint['model']
     
