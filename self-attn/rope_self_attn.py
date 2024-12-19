@@ -140,7 +140,9 @@ class RoPEAttention(Attention):
                 freqs_cis = self.compute_cis(end_x=w, end_y=h)
             freqs_cis = freqs_cis.to(x.device)
         
-        q[:, :, 1:], k[:, :, 1:] = apply_rotary_emb(q[:, :, 1:], k[:, :, 1:], freqs_cis=freqs_cis)        
+        q_rope, k_rope = apply_rotary_emb(q[:, :, 1:], k[:, :, 1:], freqs_cis=freqs_cis)
+        q = torch.cat((q[:, :, :1], q_rope), dim=2)
+        k = torch.cat((k[:, :, :1], k_rope), dim=2)
         #########
         
         attn = (q * self.scale) @ k.transpose(-2, -1)
