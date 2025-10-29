@@ -21,6 +21,7 @@ Rotary Position Embedding (RoPE) performs remarkably on language models, especia
 
 ## Updates
 
+- **Oct 29, 2025**: Training logs released in `logs/`
 - **Oct 16, 2024**: Pre-trained weights are uploaded to [huggingface hub](https://huggingface.co/collections/naver-ai/rope-vit-670e367fa2d547b705335153)
 - **Apr 16, 2024**: Pre-trained weights released
 - **Apr 15, 2024**: Code released
@@ -34,6 +35,7 @@ You can find RoPE implementations at each folder.
 - `swin/` : RoPE on Swin Transformer training code *"Swin Transformer: Hierarchical Vision Transformer using Shifted Windows"* [original repo](https://github.com/microsoft/Swin-Transformer)
 - `models/` : Only RoPE model files that used for DeiT and Swin.
 - `self-attn/` : Minimum implementation of RoPE in self-attention layer
+- `logs/` : Training logs for `deit` and `swin`
 
 ## Performances
 
